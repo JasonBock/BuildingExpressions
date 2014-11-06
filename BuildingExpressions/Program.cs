@@ -49,7 +49,7 @@ namespace BuildingExpressions
 				"Expression.dll",
 				options: new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary),
 				syntaxTrees: new[] { tree },
-				references: new[] { new MetadataFileReference(typeof(object).Assembly.Location) });
+				references: new[] { MetadataReference.CreateFromAssembly(typeof(object).Assembly) });
 
 			Assembly assembly;
 			using (var stream = new MemoryStream())
@@ -83,8 +83,8 @@ namespace BuildingExpressions
 				syntaxTrees: new[] { tree },
 				references: new[]
 				{
-					new MetadataFileReference(typeof(object).Assembly.Location),
-					new MetadataFileReference(typeof(IWorker).Assembly.Location)
+					MetadataReference.CreateFromAssembly(typeof(object).Assembly),
+					MetadataReference.CreateFromAssembly(typeof(IWorker).Assembly)
 				});
 
 			Assembly assembly;
