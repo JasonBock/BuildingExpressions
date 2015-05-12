@@ -13,10 +13,14 @@ namespace BuildingExpressions
 	{
 		static void Main(string[] args)
 		{
-			Console.Out.WriteLine(Program.CalculateWithExpressions(2.3));
-			Console.Out.WriteLine(Program.CalculateWithRoslyn(2.3));
-			Console.Out.WriteLine(Program.CalculateWithScripting(2.3));
-			Console.Out.WriteLine(Program.BuildWorkerWithRoslyn(2.3));
+			Console.Out.WriteLine(
+				$"{nameof(Program.CalculateWithExpressions)} = {Program.CalculateWithExpressions(2.3)}");
+			Console.Out.WriteLine(
+				$"{nameof(Program.CalculateWithRoslyn)} = {Program.CalculateWithRoslyn(2.3)}");
+			Console.Out.WriteLine(
+				$"{nameof(Program.CalculateWithScripting)} = {Program.CalculateWithScripting(2.3)}");
+			Console.Out.WriteLine(
+				$"{nameof(Program.BuildWorkerWithRoslyn)} = {Program.BuildWorkerWithRoslyn(2.3)}");
 		}
 
 		private static double CalculateWithExpressions(double x)
