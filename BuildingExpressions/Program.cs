@@ -1,10 +1,11 @@
 using System;
 using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.IO;
 using BuildingExpressions.Contracts;
+using Microsoft.CodeAnalysis.Scripting.CSharp;
+using Microsoft.CodeAnalysis.CSharp;
 
 namespace BuildingExpressions
 {
@@ -14,6 +15,7 @@ namespace BuildingExpressions
 		{
 			Console.Out.WriteLine(Program.CalculateWithExpressions(2.3));
 			Console.Out.WriteLine(Program.CalculateWithRoslyn(2.3));
+			Console.Out.WriteLine(Program.CalculateWithScripting(2.3));
 			Console.Out.WriteLine(Program.BuildWorkerWithRoslyn(2.3));
 		}
 
@@ -60,6 +62,12 @@ namespace BuildingExpressions
 
 			var method = assembly.GetType("Expression").GetMethod("Evaluate");
 			return (double)method.Invoke(null, new object[] { x });
+		}
+
+		private static double CalculateWithScripting(double x)
+		{
+			var expression = $"((3 * {x}) / 2) + 4";
+			return (double)CSharpScript.Create(expression).Run().ReturnValue;
 		}
 
 		private static double BuildWorkerWithRoslyn(double x)
