@@ -4,7 +4,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.IO;
 using BuildingExpressions.Contracts;
-using Microsoft.CodeAnalysis.Scripting.CSharp;
+//using Microsoft.CodeAnalysis.Scripting.CSharp;
 using Microsoft.CodeAnalysis.CSharp;
 
 namespace BuildingExpressions
@@ -17,8 +17,8 @@ namespace BuildingExpressions
 				$"{nameof(Program.CalculateWithExpressions)} = {Program.CalculateWithExpressions(2.3)}");
 			Console.Out.WriteLine(
 				$"{nameof(Program.CalculateWithRoslyn)} = {Program.CalculateWithRoslyn(2.3)}");
-			Console.Out.WriteLine(
-				$"{nameof(Program.CalculateWithScripting)} = {Program.CalculateWithScripting(2.3)}");
+			//Console.Out.WriteLine(
+			//	$"{nameof(Program.CalculateWithScripting)} = {Program.CalculateWithScripting(2.3)}");
 			Console.Out.WriteLine(
 				$"{nameof(Program.BuildWorkerWithRoslyn)} = {Program.BuildWorkerWithRoslyn(2.3)}");
 		}
@@ -55,7 +55,7 @@ namespace BuildingExpressions
 				"Expression.dll",
 				options: new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary),
 				syntaxTrees: new[] { tree },
-				references: new[] { MetadataReference.CreateFromAssembly(typeof(object).Assembly) });
+				references: new[] { MetadataReference.CreateFromFile(typeof(object).Assembly.Location) });
 
 			Assembly assembly;
 			using (var stream = new MemoryStream())
@@ -68,11 +68,12 @@ namespace BuildingExpressions
 			return (double)method.Invoke(null, new object[] { x });
 		}
 
-		private static double CalculateWithScripting(double x)
-		{
-			var expression = $"((3 * {x}) / 2) + 4";
-			return (double)CSharpScript.Create(expression).Run().ReturnValue;
-		}
+		// It will come back...some day!
+		//private static double CalculateWithScripting(double x)
+		//{
+		//	var expression = $"((3 * {x}) / 2) + 4";
+		//	return (double)CSharpScript.Create(expression).Run().ReturnValue;
+		//}
 
 		private static double BuildWorkerWithRoslyn(double x)
 		{
@@ -95,8 +96,8 @@ namespace BuildingExpressions
 				syntaxTrees: new[] { tree },
 				references: new[]
 				{
-					MetadataReference.CreateFromAssembly(typeof(object).Assembly),
-					MetadataReference.CreateFromAssembly(typeof(IWorker).Assembly)
+					MetadataReference.CreateFromFile(typeof(object).Assembly.Location),
+					MetadataReference.CreateFromFile(typeof(IWorker).Assembly.Location)
 				});
 
 			Assembly assembly;
